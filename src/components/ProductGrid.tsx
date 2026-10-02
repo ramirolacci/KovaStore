@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from './ProductCard';
 import { CategoryFilter } from './CategoryFilter';
 import { Product } from '../types/product';
 import { Sparkles, SearchX, RotateCcw } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const categoryTitles: Record<string, string> = {
   all: 'EXPLORAR TODO EL CATÁLOGO',
@@ -26,6 +30,9 @@ export const ProductGrid: React.FC = () => {
     favorites,
     sortBy
   } = useShop();
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   // 1. Filtering Phase
   let filtered = [...products];
@@ -66,6 +73,68 @@ export const ProductGrid: React.FC = () => {
 
   const sortedProducts = sortProducts(filtered);
 
+  // GSAP Section Header & Cards Scroll Reveal
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header Animation
+      gsap.from('.section-header-modern', {
+        opacity: 0,
+        y: 35,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+      // Filter Toolbar Animation
+      gsap.from('.filter-controls-wrapper', {
+        opacity: 0,
+        y: 25,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none none'
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Animate cards on filter change or initial render
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.product-card-modern',
+        { opacity: 0, y: 35, scale: 0.97 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.65,
+          stagger: {
+            each: 0.07,
+            grid: 'auto',
+            from: 'start'
+          },
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [selectedCategory, searchQuery, sortBy, isWishlistOnly]);
+
   const resetAllFilters = () => {
     setSelectedCategory('all');
     setSearchQuery('');
@@ -79,7 +148,7 @@ export const ProductGrid: React.FC = () => {
     : categoryTitles[selectedCategory] || `${selectedCategory.toUpperCase()} DROP`;
 
   return (
-    <section className="catalog-section" id="trends">
+    <section ref={sectionRef} className="catalog-section" id="trends">
       {/* Section Header */}
       <div className="section-header-modern">
         <div className="section-pill">
@@ -112,7 +181,7 @@ export const ProductGrid: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className="products-grid-modern">
+        <div ref={gridRef} className="products-grid-modern">
           {sortedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

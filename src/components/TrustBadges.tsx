@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { Truck, ShieldCheck, RefreshCw, Zap } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const TrustBadges: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.trust-card', {
+        opacity: 0,
+        y: 40,
+        scale: 0.95,
+        duration: 0.85,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const features = [
     {
       icon: Truck,
@@ -26,8 +53,8 @@ export const TrustBadges: React.FC = () => {
   ];
 
   return (
-    <section className="trust-section">
-      <div className="trust-grid">
+    <section ref={sectionRef} className="trust-section">
+      <div ref={cardsRef} className="trust-grid">
         {features.map((f, index) => {
           const Icon = f.icon;
           return (

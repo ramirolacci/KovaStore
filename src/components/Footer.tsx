@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { Instagram, Twitter, Linkedin, Facebook, MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Footer: React.FC = () => {
   const { setSelectedCategory, setIsWishlistOnly } = useShop();
+  const footerRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.footer-col', {
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: 'top 90%',
+          toggleActions: 'play none none none'
+        }
+      });
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleCategoryNav = (cat: 'all' | 'men' | 'women' | 'accessories' | 'new') => {
     setSelectedCategory(cat);
@@ -17,7 +41,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="footer-modern">
+    <footer ref={footerRef} className="footer-modern">
       <div className="footer-top-container">
         {/* Brand Column */}
         <div className="footer-col footer-brand-col">

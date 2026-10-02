@@ -1,11 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import { Mail, CheckCircle2, ArrowRight } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Newsletter: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { showToast } = useShop();
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(wrapperRef.current, {
+        opacity: 0,
+        y: 50,
+        scale: 0.96,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,8 +44,8 @@ export const Newsletter: React.FC = () => {
   };
 
   return (
-    <section className="newsletter-section">
-      <div className="newsletter-wrapper">
+    <section ref={sectionRef} className="newsletter-section">
+      <div ref={wrapperRef} className="newsletter-wrapper">
         <div className="newsletter-text">
           <span className="newsletter-tag">ÚNETE AL CÍRCULO INTERNO</span>
           <h3>OBTÉN 20% DE DESCUENTO EN TU PRIMER DROP</h3>

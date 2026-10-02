@@ -1,9 +1,98 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { ArrowUpRight, Flame, Sparkles, ChevronDown } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Hero: React.FC = () => {
   const { setSelectedCategory } = useShop();
+  const heroRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Initial Hero Stagger Entrance
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      tl.from('.hero-pill', {
+        opacity: 0,
+        y: 25,
+        duration: 0.8,
+        stagger: 0.12,
+        delay: 0.1
+      })
+      .from('.hero-title', {
+        opacity: 0,
+        y: 45,
+        duration: 1.1,
+        filter: 'blur(8px)'
+      }, '-=0.5')
+      .from('.hero-subtitle', {
+        opacity: 0,
+        y: 30,
+        duration: 0.9
+      }, '-=0.7')
+      .from('.hero-cta-group .btn-primary, .hero-cta-group .btn-secondary', {
+        opacity: 0,
+        y: 25,
+        stagger: 0.15,
+        duration: 0.8
+      }, '-=0.6')
+      .from('.hero-stat-item', {
+        opacity: 0,
+        y: 20,
+        stagger: 0.1,
+        duration: 0.7
+      }, '-=0.5')
+      .from(imageRef.current, {
+        opacity: 0,
+        x: 60,
+        scale: 1.08,
+        duration: 1.4,
+        ease: 'power2.out'
+      }, 0.2);
+
+      // 2. Parallax on Scroll for Image and Glow
+      gsap.to(imageRef.current, {
+        y: 80,
+        scale: 1.04,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      });
+
+      gsap.to(glowRef.current, {
+        y: 120,
+        opacity: 0.4,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.5
+        }
+      });
+
+      // 3. Subtle floating animation for Glow
+      gsap.to(glowRef.current, {
+        scale: 1.15,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleShopClick = (e: React.MouseEvent, category: 'all' | 'new' = 'all') => {
     e.preventDefault();
@@ -15,18 +104,19 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="hero-section">
+    <section ref={heroRef} className="hero-section">
       <div className="hero-background-wrapper">
         <div className="hero-backdrop-gradient"></div>
         <img
+          ref={imageRef}
           src="/Images/Banner-Mobile-PullBear-1.png"
           alt="Cápsula de Streetwear KOVA 2026"
           className="hero-image"
         />
-        <div className="hero-glow-sphere"></div>
+        <div ref={glowRef} className="hero-glow-sphere"></div>
       </div>
 
-      <div className="hero-content">
+      <div ref={contentRef} className="hero-content">
         <div className="hero-tag-row">
           <span className="hero-pill hero-pill-live">
             <span className="pulsing-dot"></span>
