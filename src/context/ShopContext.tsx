@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Product, CartItem, CategoryFilter } from '../types/product';
+import { Product, CartItem, CategoryFilter, SortOption } from '../types/product';
 import { productsData } from '../data/products';
 
 interface ShopContextType {
@@ -10,7 +10,13 @@ interface ShopContextType {
   updateQuantity: (productId: string, quantity: number, size?: string) => void;
   clearCart: () => void;
   cartCount: number;
+  cartSubtotal: number;
+  cartDiscount: number;
   cartTotal: number;
+  appliedPromoCode: string | null;
+  applyPromoCode: (code: string) => { success: boolean; message: string };
+  removePromoCode: () => void;
+  
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
   
@@ -25,12 +31,15 @@ interface ShopContextType {
   setSelectedCategory: (category: CategoryFilter) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  sortBy: SortOption;
+  setSortBy: (sort: SortOption) => void;
 
   quickViewProduct: Product | null;
   setQuickViewProduct: (product: Product | null) => void;
 
   toastMessage: string | null;
-  showToast: (msg: string) => void;
+  toastType: 'success' | 'info' | 'favorite';
+  showToast: (msg: string, type?: 'success' | 'info' | 'favorite') => void;
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
@@ -38,37 +47,60 @@ const ShopContext = createContext<ShopContextType | undefined>(undefined);
 export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [products] = useState<Product[]>(productsData);
   
-  // Load initial cart & favorites from localStorage if available
+  // Load initial cart & favorites from localStorage
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('suburban_cart');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('kova_suburban_cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
   });
   
   const [favorites, setFavorites] = useState<string[]>(() => {
-    const saved = localStorage.getItem('suburban_favorites');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('kova_suburban_favorites');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(() => {
+    return localStorage.getItem('kova_promo_code') || null;
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOnly, setIsWishlistOnly] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<'success' | 'info' | 'favorite'>('success');
 
   useEffect(() => {
-    localStorage.setItem('suburban_cart', JSON.stringify(cart));
+    localStorage.setItem('kova_suburban_cart', JSON.stringify(cart));
   }, [cart]);
 
   useEffect(() => {
-    localStorage.setItem('suburban_favorites', JSON.stringify(favorites));
+    localStorage.setItem('kova_suburban_favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  const showToast = (msg: string) => {
+  useEffect(() => {
+    if (appliedPromoCode) {
+      localStorage.setItem('kova_promo_code', appliedPromoCode);
+    } else {
+      localStorage.removeItem('kova_promo_code');
+    }
+  }, [appliedPromoCode]);
+
+  const showToast = (msg: string, type: 'success' | 'info' | 'favorite' = 'success') => {
     setToastMessage(msg);
+    setToastType(type);
     setTimeout(() => {
       setToastMessage((current) => (current === msg ? null : current));
-    }, 2800);
+    }, 3000);
   };
 
   const addToCart = (product: Product, size?: string, quantity: number = 1) => {
@@ -88,7 +120,7 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     });
 
-    showToast(`Added "${product.name}" to your cart!`);
+    showToast(`Added "${product.name}" (${chosenSize}) to cart`, 'success');
   };
 
   const removeFromCart = (productId: string, size?: string) => {
@@ -116,15 +148,35 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setCart([]);
   };
 
+  const applyPromoCode = (code: string) => {
+    const formatted = code.trim().toUpperCase();
+    if (formatted === 'KOVA20' || formatted === 'SUBURBAN20') {
+      setAppliedPromoCode(formatted);
+      showToast('🎉 Promo code KOVA20 applied! 20% discount unlocked.', 'success');
+      return { success: true, message: '20% OFF applied!' };
+    }
+    if (formatted === 'FREESHIP') {
+      setAppliedPromoCode(formatted);
+      showToast('🎉 Free shipping code applied!', 'success');
+      return { success: true, message: 'Free Shipping unlocked!' };
+    }
+    return { success: false, message: 'Invalid coupon code.' };
+  };
+
+  const removePromoCode = () => {
+    setAppliedPromoCode(null);
+    showToast('Promo code removed', 'info');
+  };
+
   const toggleFavorite = (productId: string) => {
     setFavorites((prev) => {
       const exists = prev.includes(productId);
       const product = products.find((p) => p.id === productId);
       if (exists) {
-        showToast(`Removed "${product?.name || 'Item'}" from favorites`);
+        showToast(`Removed "${product?.name || 'Item'}" from wishlist`, 'info');
         return prev.filter((id) => id !== productId);
       } else {
-        showToast(`Added "${product?.name || 'Item'}" to favorites!`);
+        showToast(`Saved "${product?.name || 'Item'}" to wishlist`, 'favorite');
         return [...prev, productId];
       }
     });
@@ -133,7 +185,11 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const isFavorite = (productId: string) => favorites.includes(productId);
 
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const cartTotal = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+  const cartSubtotal = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+  
+  const discountRate = appliedPromoCode === 'KOVA20' || appliedPromoCode === 'SUBURBAN20' ? 0.20 : 0;
+  const cartDiscount = cartSubtotal * discountRate;
+  const cartTotal = Math.max(0, cartSubtotal - cartDiscount);
 
   return (
     <ShopContext.Provider
@@ -145,7 +201,12 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         updateQuantity,
         clearCart,
         cartCount,
+        cartSubtotal,
+        cartDiscount,
         cartTotal,
+        appliedPromoCode,
+        applyPromoCode,
+        removePromoCode,
         isCartOpen,
         setIsCartOpen,
         favorites,
@@ -158,9 +219,12 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setSelectedCategory,
         searchQuery,
         setSearchQuery,
+        sortBy,
+        setSortBy,
         quickViewProduct,
         setQuickViewProduct,
         toastMessage,
+        toastType,
         showToast
       }}
     >

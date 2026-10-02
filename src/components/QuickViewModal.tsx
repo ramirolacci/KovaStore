@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Star, Heart, ShoppingBag, Plus, Minus } from 'lucide-react';
+import { X, Star, Heart, ShoppingBag, Plus, Minus, Truck, ShieldCheck, Check } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
 export const QuickViewModal: React.FC = () => {
@@ -7,6 +7,7 @@ export const QuickViewModal: React.FC = () => {
 
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(1);
+  const [isAdded, setIsAdded] = useState(false);
 
   if (!quickViewProduct) return null;
 
@@ -16,42 +17,96 @@ export const QuickViewModal: React.FC = () => {
 
   const handleAddToCart = () => {
     addToCart(quickViewProduct, activeSize, quantity);
-    setQuickViewProduct(null);
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+      setQuickViewProduct(null);
+    }, 800);
   };
 
   return (
-    <div className="modal-overlay" onClick={() => setQuickViewProduct(null)}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={() => setQuickViewProduct(null)}>
-          <X size={24} />
+    <div
+      className="modal-backdrop-modern"
+      onClick={() => setQuickViewProduct(null)}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="modal-panel-modern"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          className="modal-panel-close"
+          onClick={() => setQuickViewProduct(null)}
+          aria-label="Close modal"
+        >
+          <X size={20} />
         </button>
 
-        <div className="modal-grid">
-          <div className="modal-image">
-            <img src={quickViewProduct.image} alt={quickViewProduct.name} />
+        <div className="modal-inner-grid">
+          {/* Media Column */}
+          <div className="modal-media-col">
+            <div className="modal-image-wrapper">
+              <img
+                src={quickViewProduct.image}
+                alt={quickViewProduct.name}
+                className="modal-main-img"
+              />
+              {quickViewProduct.tag && (
+                <span className={`modal-badge badge-${quickViewProduct.tag.toLowerCase()}`}>
+                  {quickViewProduct.tag}
+                </span>
+              )}
+            </div>
           </div>
 
-          <div className="modal-info">
-            <h2>{quickViewProduct.name}</h2>
-            <div className="rate" style={{ marginBottom: '1rem' }}>
-              {[...Array(quickViewProduct.rating)].map((_, i) => (
-                <Star key={i} size={18} fill="#FFBF00" color="#FFBF00" style={{ marginRight: '2px' }} />
-              ))}
-              <span className="rating-text">(5.0 / 5)</span>
+          {/* Details Column */}
+          <div className="modal-details-col">
+            <div className="modal-header-info">
+              <div className="modal-rating-badge">
+                <Star size={14} fill="#FFB800" color="#FFB800" />
+                <span className="rating-num">{quickViewProduct.rating.toFixed(1)}</span>
+                <span className="rating-total">
+                  ({quickViewProduct.reviewCount || 100}+ verified reviews)
+                </span>
+              </div>
+
+              <h2 className="modal-product-title">{quickViewProduct.name}</h2>
+
+              <div className="modal-pricing-row">
+                <span className="modal-current-price">
+                  ${quickViewProduct.price.toFixed(2)}
+                </span>
+                {quickViewProduct.originalPrice && (
+                  <>
+                    <span className="modal-original-price">
+                      ${quickViewProduct.originalPrice.toFixed(2)}
+                    </span>
+                    <span className="modal-discount-tag">
+                      Save {quickViewProduct.discountPercent}%
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
 
-            <p className="modal-price">${quickViewProduct.price.toFixed(2)}</p>
+            <p className="modal-description-text">
+              {quickViewProduct.description}
+            </p>
 
-            <p className="modal-description">{quickViewProduct.description}</p>
-
+            {/* Size Selector */}
             {availableSizes.length > 0 && (
-              <div className="size-selector">
-                <label>Select Size:</label>
-                <div className="size-options">
+              <div className="modal-size-block">
+                <div className="modal-label-row">
+                  <label>Select Size:</label>
+                  <span className="size-guide-hint">Standard Fit</span>
+                </div>
+                <div className="modal-sizes-list">
                   {availableSizes.map((sz) => (
                     <button
                       key={sz}
-                      className={`size-btn ${activeSize === sz ? 'selected' : ''}`}
+                      className={`modal-size-btn ${activeSize === sz ? 'active' : ''}`}
                       onClick={() => setSelectedSize(sz)}
                     >
                       {sz}
@@ -61,31 +116,62 @@ export const QuickViewModal: React.FC = () => {
               </div>
             )}
 
-            <div className="quantity-selector">
+            {/* Quantity Stepper */}
+            <div className="modal-qty-block">
               <label>Quantity:</label>
-              <div className="quantity-controls">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-                  <Minus size={16} />
+              <div className="modal-stepper">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  aria-label="Decrease quantity"
+                >
+                  <Minus size={15} />
                 </button>
                 <span>{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)}>
-                  <Plus size={16} />
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  aria-label="Increase quantity"
+                >
+                  <Plus size={15} />
                 </button>
               </div>
             </div>
 
-            <div className="modal-actions">
-              <button className="main-btn add-btn" onClick={handleAddToCart}>
-                <ShoppingBag size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
-                Add To Cart
+            {/* Actions */}
+            <div className="modal-actions-row">
+              <button
+                className={`btn-primary modal-btn-add ${isAdded ? 'success' : ''}`}
+                onClick={handleAddToCart}
+              >
+                {isAdded ? (
+                  <>
+                    <Check size={18} /> Added To Bag!
+                  </>
+                ) : (
+                  <>
+                    <ShoppingBag size={18} /> Add To Bag — ${(quickViewProduct.price * quantity).toFixed(2)}
+                  </>
+                )}
               </button>
 
               <button
-                className={`fav-modal-btn ${favorited ? 'active' : ''}`}
+                className={`modal-wishlist-toggle ${favorited ? 'active' : ''}`}
                 onClick={() => toggleFavorite(quickViewProduct.id)}
+                title="Save to wishlist"
               >
-                <Heart size={22} fill={favorited ? '#ff3b30' : 'none'} color={favorited ? '#ff3b30' : 'currentColor'} />
+                <Heart size={20} fill={favorited ? 'currentColor' : 'none'} />
               </button>
+            </div>
+
+            {/* Guarantee mini badges */}
+            <div className="modal-guarantees">
+              <div className="guarantee-item">
+                <Truck size={15} color="var(--color-accent)" />
+                <span>Free express shipping on $100+</span>
+              </div>
+              <div className="guarantee-item">
+                <ShieldCheck size={15} color="var(--color-accent)" />
+                <span>30-Day Hassle-Free Returns</span>
+              </div>
             </div>
           </div>
         </div>
