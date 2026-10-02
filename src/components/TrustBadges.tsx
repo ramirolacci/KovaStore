@@ -5,23 +5,23 @@ export const TrustBadges: React.FC = () => {
   const features = [
     {
       icon: Truck,
-      title: 'Express Worldwide Shipping',
-      description: 'Free on all orders over $100. Dispatched in 24h.'
+      title: 'Envío Express Nacional e Internacional',
+      description: 'Gratis en todas las compras mayores a $100. Despacho en 24h.'
     },
     {
       icon: ShieldCheck,
-      title: '100% Certified Authentic',
-      description: 'Direct factory partnership. Guaranteed origin.'
+      title: '100% Auténtico Certificado',
+      description: 'Confección directa de autor. Origen y calidad garantizados.'
     },
     {
       icon: RefreshCw,
-      title: '30-Day Easy Exchange',
-      description: 'Simple and fast returns with prepaid labels.'
+      title: '30 Días de Cambio Sin Cargo',
+      description: 'Devoluciones y cambios de talle simples con gestión rápida.'
     },
     {
       icon: Zap,
-      title: 'Secure Instant Checkout',
-      description: '256-bit encrypted checkout with Apple Pay & Cards.'
+      title: 'Checkout Seguro e Instantáneo',
+      description: 'Procesamiento encriptado de 256 bits con tarjetas y Apple Pay.'
     }
   ];
 

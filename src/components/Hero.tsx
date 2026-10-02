@@ -20,7 +20,7 @@ export const Hero: React.FC = () => {
         <div className="hero-backdrop-gradient"></div>
         <img
           src="/Images/Banner-Mobile-PullBear-1.png"
-          alt="KOVA Streetwear Capsule 2026"
+          alt="Cápsula de Streetwear KOVA 2026"
           className="hero-image"
         />
         <div className="hero-glow-sphere"></div>
@@ -30,22 +30,22 @@ export const Hero: React.FC = () => {
         <div className="hero-tag-row">
           <span className="hero-pill hero-pill-live">
             <span className="pulsing-dot"></span>
-            DROP 01 // SS-26 LIVE
+            DROP 01 // SS-26 EN VIVO
           </span>
           <span className="hero-pill hero-pill-blur">
             <Sparkles size={13} color="var(--color-accent)" />
-            LIMITED QUANTITIES
+            CANTIDADES LIMITADAS
           </span>
         </div>
 
         <h1 className="hero-title">
-          MODERN <br />
+          EVOLUCIÓN DEL <br />
           <span className="text-gradient">STREETWEAR</span> <br />
-          EVOLUTION.
+          MODERNO.
         </h1>
 
         <p className="hero-subtitle">
-          Heavyweight silhouettes, technical utilitarian wear, and minimalist aesthetics engineered for modern culture.
+          Siluetas de alto gramaje, indumentaria técnica utilitaria y estética minimalista diseñada para la cultura urbana actual.
         </p>
 
         <div className="hero-cta-group">
@@ -54,7 +54,7 @@ export const Hero: React.FC = () => {
             className="btn-primary hero-btn-main"
             onClick={(e) => handleShopClick(e, 'all')}
           >
-            Explore Collection
+            Explorar Colección
             <ArrowUpRight size={18} />
           </a>
 
@@ -63,7 +63,7 @@ export const Hero: React.FC = () => {
             onClick={(e) => handleShopClick(e, 'new')}
           >
             <Flame size={16} color="var(--color-accent)" />
-            New Arrivals
+            Novedades del Drop
           </button>
         </div>
 
@@ -71,24 +71,24 @@ export const Hero: React.FC = () => {
         <div className="hero-stats-row">
           <div className="hero-stat-item">
             <strong>450+ GSM</strong>
-            <span>Heavyweight Terry</span>
+            <span>Friza Heavyweight</span>
           </div>
           <div className="hero-stat-divider"></div>
           <div className="hero-stat-item">
             <strong>100%</strong>
-            <span>Organic &amp; Tested</span>
+            <span>Orgánico y Testeado</span>
           </div>
           <div className="hero-stat-divider"></div>
           <div className="hero-stat-item">
             <strong>4.9 ★</strong>
-            <span>Over 1,500+ Drops</span>
+            <span>Más de 1.500+ Drops</span>
           </div>
         </div>
       </div>
 
       <div className="hero-scroll-indicator">
-        <a href="#trends" onClick={(e) => handleShopClick(e, 'all')} aria-label="Scroll to products">
-          <span className="scroll-text">DISCOVER PRODUCTS</span>
+        <a href="#trends" onClick={(e) => handleShopClick(e, 'all')} aria-label="Ir a productos">
+          <span className="scroll-text">DESCUBRIR PRODUCTOS</span>
           <ChevronDown size={18} className="bounce-arrow" />
         </a>
       </div>

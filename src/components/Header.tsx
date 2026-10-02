@@ -68,12 +68,12 @@ export const Header: React.FC = () => {
   };
 
   const navItems: { label: string; value: CategoryFilter; isSpecial?: boolean }[] = [
-    { label: 'All Catalog', value: 'all' },
-    { label: 'Apparel', value: 'products' },
-    { label: 'Accessories', value: 'accessories' },
-    { label: 'Men', value: 'men' },
-    { label: 'Women', value: 'women' },
-    { label: 'New Drop', value: 'new', isSpecial: true }
+    { label: 'Todo el Catálogo', value: 'all' },
+    { label: 'Indumentaria', value: 'products' },
+    { label: 'Accesorios', value: 'accessories' },
+    { label: 'Hombre', value: 'men' },
+    { label: 'Mujer', value: 'women' },
+    { label: 'Nuevo Drop', value: 'new', isSpecial: true }
   ];
 
   return (
@@ -116,7 +116,7 @@ export const Header: React.FC = () => {
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Search drops, hoodies, rings..."
+                  placeholder="Buscar buzos, cargos, anillos..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -126,7 +126,7 @@ export const Header: React.FC = () => {
                     setSearchQuery('');
                     setShowSearchInput(false);
                   }}
-                  title="Close search"
+                  title="Cerrar búsqueda"
                 >
                   <X size={16} />
                 </button>
@@ -134,7 +134,7 @@ export const Header: React.FC = () => {
             ) : (
               <button
                 className="action-icon-btn"
-                title="Search products (Ctrl+K)"
+                title="Buscar productos"
                 onClick={() => setShowSearchInput(true)}
               >
                 <Search size={20} />
@@ -145,7 +145,7 @@ export const Header: React.FC = () => {
           {/* Wishlist Button */}
           <button
             className={`action-icon-btn wishlist-icon-btn ${isWishlistOnly ? 'active' : ''}`}
-            title="Wishlist"
+            title="Favoritos / Lista de deseos"
             onClick={handleWishlistToggle}
           >
             <Heart size={20} fill={isWishlistOnly || favoritesCount > 0 ? 'currentColor' : 'none'} />
@@ -155,7 +155,7 @@ export const Header: React.FC = () => {
           {/* Shopping Cart Button */}
           <button
             className="action-icon-btn cart-icon-btn"
-            title="Shopping Cart"
+            title="Bolsa de compras"
             onClick={() => setIsCartOpen(true)}
           >
             <ShoppingBag size={20} />
@@ -166,7 +166,7 @@ export const Header: React.FC = () => {
           <button
             className="action-icon-btn mobile-menu-toggle"
             onClick={() => setIsNavOpen(!isNavOpen)}
-            aria-label="Toggle menu"
+            aria-label="Abrir menú de navegación"
           >
             {isNavOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

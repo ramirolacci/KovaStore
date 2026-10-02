@@ -7,11 +7,27 @@ interface ProductCardProps {
   product: Product;
 }
 
+const tagLabels: Record<string, string> = {
+  BESTSELLER: 'MÁS VENDIDO',
+  HOT: 'TENDENCIA',
+  NEW: 'NUEVO',
+  LIMITED: 'LIMITADO'
+};
+
+const genderLabels: Record<string, string> = {
+  men: 'Hombre',
+  women: 'Mujer',
+  unisex: 'Unisex',
+  kids: 'Niños',
+  products: 'Indumentaria',
+  accessories: 'Accesorio'
+};
+
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { toggleFavorite, isFavorite, addToCart, setQuickViewProduct } = useShop();
   const favorited = isFavorite(product.id);
   const [selectedSize, setSelectedSize] = useState<string>(
-    product.sizes && product.sizes.length > 0 ? product.sizes[0] : 'One Size'
+    product.sizes && product.sizes.length > 0 ? product.sizes[0] : 'Talle Único'
   );
   const [isAddedRecently, setIsAddedRecently] = useState(false);
 
@@ -22,13 +38,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setTimeout(() => setIsAddedRecently(false), 1600);
   };
 
+  const displayTag = product.tag ? (tagLabels[product.tag] || product.tag) : null;
+  const categoryOrGender = product.gender ? (genderLabels[product.gender] || product.gender) : (genderLabels[product.category] || product.category);
+
   return (
     <div className="product-card-modern">
       {/* Product Badges */}
       <div className="card-badge-container">
-        {product.tag && (
-          <span className={`badge-tag badge-${product.tag.toLowerCase()}`}>
-            {product.tag}
+        {displayTag && (
+          <span className={`badge-tag badge-${product.tag?.toLowerCase()}`}>
+            {displayTag}
           </span>
         )}
         {product.discountPercent && (
@@ -45,8 +64,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           e.stopPropagation();
           toggleFavorite(product.id);
         }}
-        title={favorited ? 'Remove from wishlist' : 'Save to wishlist'}
-        aria-label="Wishlist toggle"
+        title={favorited ? 'Quitar de favoritos' : 'Guardar en favoritos'}
+        aria-label="Alternar favoritos"
       >
         <Heart
           size={18}
@@ -76,7 +95,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               setQuickViewProduct(product);
             }}
           >
-            <Eye size={15} /> Quick View
+            <Eye size={15} /> Vista Rápida
           </button>
         </div>
 
@@ -84,7 +103,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {product.stockCount && product.stockCount <= 5 && (
           <div className="card-stock-alert">
             <span className="stock-dot"></span>
-            Only {product.stockCount} left
+            Solo quedan {product.stockCount}
           </div>
         )}
       </div>
@@ -98,9 +117,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="rating-score">{product.rating.toFixed(1)}</span>
           </div>
           {product.reviewCount && (
-            <span className="reviews-count">({product.reviewCount} reviews)</span>
+            <span className="reviews-count">({product.reviewCount} opiniones)</span>
           )}
-          <span className="category-tag">{product.gender || product.category}</span>
+          <span className="category-tag">{categoryOrGender}</span>
         </div>
 
         {/* Product Title */}
@@ -115,7 +134,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Size Selection Chips if available */}
         {product.sizes && product.sizes.length > 1 && (
           <div className="card-size-selector">
-            <span className="size-label">Size:</span>
+            <span className="size-label">Talle:</span>
             <div className="size-chips-list">
               {product.sizes.map((sz) => (
                 <button
@@ -145,15 +164,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <button
             className={`btn-card-add ${isAddedRecently ? 'added-success' : ''}`}
             onClick={handleQuickAdd}
-            title="Add to cart"
+            title="Agregar a la bolsa"
           >
             {isAddedRecently ? (
               <>
-                <Check size={16} /> Added
+                <Check size={16} /> Agregado
               </>
             ) : (
               <>
-                <ShoppingBag size={16} /> Add
+                <ShoppingBag size={16} /> Agregar
               </>
             )}
           </button>

@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
             <span className="logo-dot"></span>
           </a>
           <p className="footer-tagline">
-            High-streetwear brand cultivating architectural cuts, heavyweight cottons, and timeless urban aesthetics.
+            Marca de alta indumentaria urbana que cultiva cortes arquitectónicos, algodones de alto gramaje y estética contemporánea atemporal.
           </p>
 
           <div className="footer-contact-items">
@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
             </div>
             <div className="contact-item">
               <Mail size={16} />
-              <span>contact@kovastudio.com</span>
+              <span>contacto@kovastudio.com</span>
             </div>
           </div>
 
@@ -63,49 +63,49 @@ export const Footer: React.FC = () => {
 
         {/* Collections Navigation */}
         <div className="footer-col">
-          <h4 className="footer-heading">Collections</h4>
+          <h4 className="footer-heading">Colecciones</h4>
           <ul className="footer-links-list">
             <li>
-              <button onClick={() => handleCategoryNav('all')}>All Streetwear</button>
+              <button onClick={() => handleCategoryNav('all')}>Todo el Streetwear</button>
             </li>
             <li>
-              <button onClick={() => handleCategoryNav('new')}>New SS-26 Drop</button>
+              <button onClick={() => handleCategoryNav('new')}>Nuevo Drop SS-26</button>
             </li>
             <li>
-              <button onClick={() => handleCategoryNav('men')}>Men's Heavyweight</button>
+              <button onClick={() => handleCategoryNav('men')}>Línea Hombre Heavyweight</button>
             </li>
             <li>
-              <button onClick={() => handleCategoryNav('women')}>Women's Silhouettes</button>
+              <button onClick={() => handleCategoryNav('women')}>Siluetas Mujer</button>
             </li>
             <li>
-              <button onClick={() => handleCategoryNav('accessories')}>Chains &amp; Accessories</button>
+              <button onClick={() => handleCategoryNav('accessories')}>Cadenas y Accesorios</button>
             </li>
           </ul>
         </div>
 
         {/* Customer Support */}
         <div className="footer-col">
-          <h4 className="footer-heading">Customer Care</h4>
+          <h4 className="footer-heading">Atención al Cliente</h4>
           <ul className="footer-links-list">
-            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Shipping Information</a></li>
-            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Returns &amp; Exchanges</a></li>
-            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Size &amp; Fit Guide</a></li>
-            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Order Tracking</a></li>
-            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Terms &amp; Privacy Policy</a></li>
+            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Información de Envío</a></li>
+            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Cambios y Devoluciones</a></li>
+            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Guía de Talles y Medidas</a></li>
+            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Seguimiento de Pedido</a></li>
+            <li><a href="#trends" onClick={() => handleCategoryNav('all')}>Términos y Privacidad</a></li>
           </ul>
         </div>
 
         {/* Store Highlights */}
         <div className="footer-col">
-          <h4 className="footer-heading">Drop Alerts</h4>
+          <h4 className="footer-heading">Alertas de Lanzamientos</h4>
           <p className="footer-info-text">
-            Stay ahead of seasonal releases. VIP members get 1-hour early access before public release.
+            Mantente al frente de cada drop de temporada. Los miembros VIP tienen 1 hora de acceso anticipado.
           </p>
           <div className="footer-badge-pill">
-            <span>SPRING / SUMMER 2026 ARCHIVE</span>
+            <span>ARCHIVO PRIMAVERA / VERANO 2026</span>
           </div>
           <button className="footer-back-to-top" onClick={scrollToTop}>
-            Back To Top <ArrowUpRight size={14} />
+            Volver Arriba <ArrowUpRight size={14} />
           </button>
         </div>
       </div>
@@ -114,7 +114,7 @@ export const Footer: React.FC = () => {
       <div className="footer-bottom-bar">
         <div className="footer-bottom-container">
           <p className="copyright-text">
-            &copy; 2026 <strong>KOVA STUDIO</strong> / SubUrban. All rights reserved. Crafted for urban culture.
+            &copy; 2026 <strong>KOVA STUDIO</strong> / SubUrban. Todos los derechos reservados. Diseñado para la cultura urbana.
           </p>
 
           <div className="payment-badges-row">

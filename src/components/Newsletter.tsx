@@ -10,21 +10,21 @@ export const Newsletter: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@')) {
-      showToast('Please enter a valid email address', 'info');
+      showToast('Por favor, ingresa una dirección de correo válida', 'info');
       return;
     }
     setIsSubscribed(true);
-    showToast('🎉 Welcome to the VIP Club! Use code KOVA20 for 20% off.', 'success');
+    showToast('🎉 ¡Bienvenido al Club VIP! Usa el código KOVA20 para un 20% OFF.', 'success');
   };
 
   return (
     <section className="newsletter-section">
       <div className="newsletter-wrapper">
         <div className="newsletter-text">
-          <span className="newsletter-tag">JOIN THE INNER CIRCLE</span>
-          <h3>GET 20% OFF YOUR FIRST DROP</h3>
+          <span className="newsletter-tag">ÚNETE AL CÍRCULO INTERNO</span>
+          <h3>OBTÉN 20% DE DESCUENTO EN TU PRIMER DROP</h3>
           <p>
-            Receive private access to secret product releases, restock alerts, and exclusive editorial lookbooks before anyone else.
+            Recibe acceso privado a lanzamientos secretos, alertas de restock y lookbooks editoriales exclusivos antes que nadie.
           </p>
         </div>
 
@@ -32,8 +32,8 @@ export const Newsletter: React.FC = () => {
           <div className="newsletter-success">
             <CheckCircle2 size={28} color="var(--color-accent)" />
             <div>
-              <h4>You're in the VIP list!</h4>
-              <p>Your code <strong>KOVA20</strong> has been unlocked. Apply it at checkout.</p>
+              <h4>¡Ya estás en la lista VIP!</h4>
+              <p>Tu código <strong>KOVA20</strong> ha sido activado. Aplícalo al finalizar tu compra.</p>
             </div>
           </div>
         ) : (
@@ -42,14 +42,14 @@ export const Newsletter: React.FC = () => {
               <Mail size={18} className="mail-icon" />
               <input
                 type="email"
-                placeholder="Enter your email..."
+                placeholder="Ingresa tu correo electrónico..."
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <button type="submit" className="btn-primary">
-              Subscribe <ArrowRight size={16} />
+              Suscribirme <ArrowRight size={16} />
             </button>
           </form>
         )}

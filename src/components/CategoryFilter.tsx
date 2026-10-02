@@ -16,12 +16,12 @@ export const CategoryFilter: React.FC = () => {
   } = useShop();
 
   const categories: { label: string; value: CategoryType; count?: number; isSpecial?: boolean }[] = [
-    { label: 'All Catalog', value: 'all', count: products.length },
-    { label: 'Apparel', value: 'products', count: products.filter(p => p.category === 'products').length },
-    { label: 'Accessories', value: 'accessories', count: products.filter(p => p.category === 'accessories').length },
-    { label: 'Men', value: 'men', count: products.filter(p => p.gender === 'men' || p.gender === 'unisex').length },
-    { label: 'Women', value: 'women', count: products.filter(p => p.gender === 'women' || p.gender === 'unisex').length },
-    { label: 'New Drop', value: 'new', count: products.filter(p => p.isNew).length, isSpecial: true }
+    { label: 'Todo el Catálogo', value: 'all', count: products.length },
+    { label: 'Indumentaria', value: 'products', count: products.filter(p => p.category === 'products').length },
+    { label: 'Accesorios', value: 'accessories', count: products.filter(p => p.category === 'accessories').length },
+    { label: 'Hombre', value: 'men', count: products.filter(p => p.gender === 'men' || p.gender === 'unisex').length },
+    { label: 'Mujer', value: 'women', count: products.filter(p => p.gender === 'women' || p.gender === 'unisex').length },
+    { label: 'Nuevo Drop', value: 'new', count: products.filter(p => p.isNew).length, isSpecial: true }
   ];
 
   return (
@@ -32,11 +32,11 @@ export const CategoryFilter: React.FC = () => {
           <div className="wishlist-banner-content">
             <Heart size={18} fill="currentColor" color="var(--color-danger)" />
             <span>
-              Viewing <strong>{favoritesCount} saved {favoritesCount === 1 ? 'item' : 'items'}</strong> in your wishlist
+              Viendo <strong>{favoritesCount} {favoritesCount === 1 ? 'producto guardado' : 'productos guardados'}</strong> en tus favoritos
             </span>
           </div>
           <button className="btn-banner-clear" onClick={() => setIsWishlistOnly(false)}>
-            <X size={15} /> Show All Products
+            <X size={15} /> Ver Todo el Catálogo
           </button>
         </div>
       )}
@@ -66,17 +66,17 @@ export const CategoryFilter: React.FC = () => {
           {/* Sort Dropdown */}
           <div className="sort-box">
             <SlidersHorizontal size={15} className="sort-icon" />
-            <span className="sort-label">Sort by:</span>
+            <span className="sort-label">Ordenar:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
               className="sort-select"
             >
-              <option value="featured">Featured Drops</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-              <option value="newest">Newest First</option>
+              <option value="featured">Destacados del Drop</option>
+              <option value="price-asc">Precio: Menor a Mayor</option>
+              <option value="price-desc">Precio: Mayor a Menor</option>
+              <option value="rating">Mejor Valorados</option>
+              <option value="newest">Más Recientes</option>
             </select>
           </div>
         </div>

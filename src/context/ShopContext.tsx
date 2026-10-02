@@ -104,7 +104,7 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const addToCart = (product: Product, size?: string, quantity: number = 1) => {
-    const chosenSize = size || (product.sizes && product.sizes.length > 0 ? product.sizes[0] : 'Standard');
+    const chosenSize = size || (product.sizes && product.sizes.length > 0 ? product.sizes[0] : 'Talle Único');
     
     setCart((prevCart) => {
       const existingIndex = prevCart.findIndex(
@@ -120,7 +120,7 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     });
 
-    showToast(`Added "${product.name}" (${chosenSize}) to cart`, 'success');
+    showToast(`Agregado "${product.name}" (${chosenSize}) a la bolsa`, 'success');
   };
 
   const removeFromCart = (productId: string, size?: string) => {
@@ -152,20 +152,20 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const formatted = code.trim().toUpperCase();
     if (formatted === 'KOVA20' || formatted === 'SUBURBAN20') {
       setAppliedPromoCode(formatted);
-      showToast('🎉 Promo code KOVA20 applied! 20% discount unlocked.', 'success');
-      return { success: true, message: '20% OFF applied!' };
+      showToast('🎉 ¡Cupón KOVA20 aplicado! 20% de descuento desbloqueado.', 'success');
+      return { success: true, message: '¡20% OFF aplicado con éxito!' };
     }
     if (formatted === 'FREESHIP') {
       setAppliedPromoCode(formatted);
-      showToast('🎉 Free shipping code applied!', 'success');
-      return { success: true, message: 'Free Shipping unlocked!' };
+      showToast('🎉 ¡Cupón de envío gratis aplicado!', 'success');
+      return { success: true, message: '¡Envío Gratis activado!' };
     }
-    return { success: false, message: 'Invalid coupon code.' };
+    return { success: false, message: 'Cupón de descuento no válido.' };
   };
 
   const removePromoCode = () => {
     setAppliedPromoCode(null);
-    showToast('Promo code removed', 'info');
+    showToast('Cupón promocional eliminado', 'info');
   };
 
   const toggleFavorite = (productId: string) => {
@@ -173,10 +173,10 @@ export const ShopProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const exists = prev.includes(productId);
       const product = products.find((p) => p.id === productId);
       if (exists) {
-        showToast(`Removed "${product?.name || 'Item'}" from wishlist`, 'info');
+        showToast(`Eliminado "${product?.name || 'Producto'}" de favoritos`, 'info');
         return prev.filter((id) => id !== productId);
       } else {
-        showToast(`Saved "${product?.name || 'Item'}" to wishlist`, 'favorite');
+        showToast(`Guardado "${product?.name || 'Producto'}" en favoritos`, 'favorite');
         return [...prev, productId];
       }
     });

@@ -5,6 +5,15 @@ import { CategoryFilter } from './CategoryFilter';
 import { Product } from '../types/product';
 import { Sparkles, SearchX, RotateCcw } from 'lucide-react';
 
+const categoryTitles: Record<string, string> = {
+  all: 'EXPLORAR TODO EL CATÁLOGO',
+  products: 'INDUMENTARIA Y BUZOS',
+  accessories: 'JOYERÍA Y ACCESORIOS',
+  men: 'COLECCIÓN HOMBRE',
+  women: 'COLECCIÓN MUJER',
+  new: 'NOVEDADES // ÚLTIMO DROP'
+};
+
 export const ProductGrid: React.FC = () => {
   const {
     products,
@@ -56,7 +65,6 @@ export const ProductGrid: React.FC = () => {
   };
 
   const sortedProducts = sortProducts(filtered);
-  const isFilteredView = isWishlistOnly || searchQuery.trim() !== '' || selectedCategory !== 'all' || sortBy !== 'featured';
 
   const resetAllFilters = () => {
     setSelectedCategory('all');
@@ -64,25 +72,23 @@ export const ProductGrid: React.FC = () => {
     setIsWishlistOnly(false);
   };
 
+  const currentTitle = isWishlistOnly
+    ? 'TUS PRODUCTOS GUARDADOS'
+    : searchQuery
+    ? `RESULTADOS DE BÚSQUEDA: "${searchQuery}"`
+    : categoryTitles[selectedCategory] || `${selectedCategory.toUpperCase()} DROP`;
+
   return (
     <section className="catalog-section" id="trends">
       {/* Section Header */}
       <div className="section-header-modern">
         <div className="section-pill">
           <Sparkles size={13} color="var(--color-accent)" />
-          <span>CURATED CAPSULE // SS-26</span>
+          <span>CÁPSULA CURADA // SS-26</span>
         </div>
-        <h2 className="section-title">
-          {isWishlistOnly
-            ? 'SAVED WISHLIST'
-            : searchQuery
-            ? `SEARCH: "${searchQuery}"`
-            : selectedCategory === 'all'
-            ? 'EXPLORE THE CATALOG'
-            : `${selectedCategory.toUpperCase()} COLLECTION`}
-        </h2>
+        <h2 className="section-title">{currentTitle}</h2>
         <p className="section-subtitle">
-          Engineered for effortless style. Designed with premium textiles and precision tailoring.
+          Diseños de corte contemporáneo confeccionados con textiles pesados de máxima durabilidad.
         </p>
       </div>
 
@@ -95,14 +101,14 @@ export const ProductGrid: React.FC = () => {
           <div className="empty-icon-box">
             <SearchX size={48} />
           </div>
-          <h3>No products match your criteria</h3>
+          <h3>No encontramos productos con esos filtros</h3>
           <p>
             {isWishlistOnly
-              ? 'You have not added any favorites yet. Explore the drop and click the heart icon.'
-              : 'Try checking your spelling or adjusting your category and search filters.'}
+              ? 'Aún no has agregado productos a favoritos. Haz clic en el icono de corazón en cualquier prenda.'
+              : 'Verifica la ortografía o intenta restablecer los filtros de categoría y búsqueda.'}
           </p>
           <button className="btn-primary" onClick={resetAllFilters}>
-            <RotateCcw size={16} /> Reset All Filters
+            <RotateCcw size={16} /> Restablecer Todos los Filtros
           </button>
         </div>
       ) : (

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Sparkles, ShieldCheck, Truck, ArrowRight } from 'lucide-react';
 
 const messages = [
-  { icon: Sparkles, text: 'USE CODE "KOVA20" FOR 20% OFF YOUR FIRST ORDER' },
-  { icon: Truck, text: 'FREE WORLDWIDE EXPRESS SHIPPING ON ORDERS OVER $100' },
-  { icon: ShieldCheck, text: 'AUTHENTIC DROP GUARANTEED — 30-DAY HASSLE-FREE RETURNS' }
+  { icon: Sparkles, text: 'USA EL CÓDIGO "KOVA20" PARA UN 20% DE DESCUENTO EN TU PRIMERA COMPRA' },
+  { icon: Truck, text: 'ENVÍO EXPRESS GRATIS EN TODAS LAS COMPRAS SUPERIORES A $100' },
+  { icon: ShieldCheck, text: 'DROP 100% AUTÉNTICO GARANTIZADO — 30 DÍAS DE CAMBIO SIN CARGO' }
 ];
 
 export const AnnouncementBar: React.FC = () => {
@@ -31,7 +31,7 @@ export const AnnouncementBar: React.FC = () => {
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
         >
-          Explore Drop <ArrowRight size={12} />
+          Explorar Colección <ArrowRight size={12} />
         </button>
       </div>
     </div>

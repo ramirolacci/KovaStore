@@ -44,7 +44,7 @@ export const CartDrawer: React.FC = () => {
 
   const handleCheckout = () => {
     if (cart.length === 0) return;
-    showToast('🎉 Order placed successfully! Thank you for shopping with KOVA / SubUrban.', 'success');
+    showToast('🎉 ¡Pedido realizado con éxito! Gracias por comprar en KOVA / SubUrban.', 'success');
     clearCart();
     setIsCartOpen(false);
   };
@@ -61,12 +61,12 @@ export const CartDrawer: React.FC = () => {
         <div className="cart-panel-header">
           <div className="cart-header-title">
             <ShoppingBag size={20} className="cart-title-icon" />
-            <h3>Your Bag ({cart.reduce((a, b) => a + b.quantity, 0)})</h3>
+            <h3>Tu Bolsa ({cart.reduce((a, b) => a + b.quantity, 0)})</h3>
           </div>
           <button
             className="cart-close-btn"
             onClick={() => setIsCartOpen(false)}
-            aria-label="Close cart"
+            aria-label="Cerrar bolsa"
           >
             <X size={20} />
           </button>
@@ -77,11 +77,11 @@ export const CartDrawer: React.FC = () => {
           <div className="shipping-meter-status">
             {isFreeShipping ? (
               <span className="shipping-unlocked">
-                <Sparkles size={14} /> You unlocked FREE Worldwide Shipping!
+                <Sparkles size={14} /> ¡Desbloqueaste ENVÍO MUNDIAL GRATIS!
               </span>
             ) : (
               <span>
-                Add <strong>${remainingForFreeShipping.toFixed(2)}</strong> more for <strong>FREE Shipping</strong>
+                Agrega <strong>${remainingForFreeShipping.toFixed(2)}</strong> más para tener <strong>ENVÍO GRATIS</strong>
               </span>
             )}
           </div>
@@ -100,13 +100,13 @@ export const CartDrawer: React.FC = () => {
               <div className="cart-empty-icon-circle">
                 <ShoppingBag size={42} />
               </div>
-              <h4>Your bag is currently empty</h4>
-              <p>Explore our latest drop and add your favorite streetwear pieces.</p>
+              <h4>Tu bolsa está vacía</h4>
+              <p>Explora nuestro último drop y añade tus prendas de streetwear favoritas.</p>
               <button
                 className="btn-primary"
                 onClick={() => setIsCartOpen(false)}
               >
-                Explore Drop <ArrowRight size={16} />
+                Explorar Drop <ArrowRight size={16} />
               </button>
             </div>
           ) : (
@@ -127,7 +127,7 @@ export const CartDrawer: React.FC = () => {
                       <button
                         className="cart-item-remove"
                         onClick={() => removeFromCart(item.product.id, item.selectedSize)}
-                        title="Remove item"
+                        title="Eliminar producto"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -135,7 +135,7 @@ export const CartDrawer: React.FC = () => {
 
                     {item.selectedSize && (
                       <span className="cart-item-size-tag">
-                        Size: {item.selectedSize}
+                        Talle: {item.selectedSize}
                       </span>
                     )}
 
@@ -145,7 +145,7 @@ export const CartDrawer: React.FC = () => {
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity - 1, item.selectedSize)
                           }
-                          aria-label="Decrease quantity"
+                          aria-label="Disminuir cantidad"
                         >
                           <Minus size={13} />
                         </button>
@@ -154,7 +154,7 @@ export const CartDrawer: React.FC = () => {
                           onClick={() =>
                             updateQuantity(item.product.id, item.quantity + 1, item.selectedSize)
                           }
-                          aria-label="Increase quantity"
+                          aria-label="Aumentar cantidad"
                         >
                           <Plus size={13} />
                         </button>
@@ -180,9 +180,9 @@ export const CartDrawer: React.FC = () => {
                 <div className="applied-promo-chip">
                   <div className="applied-promo-info">
                     <Tag size={14} color="var(--color-accent)" />
-                    <span>Code <strong>{appliedPromoCode}</strong> (-20% OFF)</span>
+                    <span>Código <strong>{appliedPromoCode}</strong> (-20% OFF)</span>
                   </div>
-                  <button className="remove-promo-btn" onClick={removePromoCode}>
+                  <button className="remove-promo-btn" onClick={removePromoCode} title="Eliminar cupón">
                     <X size={14} />
                   </button>
                 </div>
@@ -190,12 +190,12 @@ export const CartDrawer: React.FC = () => {
                 <form className="promo-input-group" onSubmit={handleApplyPromo}>
                   <input
                     type="text"
-                    placeholder='Promo code (try "KOVA20")'
+                    placeholder='Cupón de descuento (prueba "KOVA20")'
                     value={promoInput}
                     onChange={(e) => setPromoInput(e.target.value)}
                   />
                   <button type="submit" className="btn-promo-apply">
-                    Apply
+                    Aplicar
                   </button>
                 </form>
               )}
@@ -210,16 +210,16 @@ export const CartDrawer: React.FC = () => {
               </div>
               {cartDiscount > 0 && (
                 <div className="summary-row discount-row">
-                  <span>Discount (20%)</span>
+                  <span>Descuento Promocional (20%)</span>
                   <span>-${cartDiscount.toFixed(2)}</span>
                 </div>
               )}
               <div className="summary-row">
-                <span>Shipping</span>
-                <span>{isFreeShipping ? 'FREE' : '$9.99'}</span>
+                <span>Costo de Envío</span>
+                <span>{isFreeShipping ? 'GRATIS' : '$9.99'}</span>
               </div>
               <div className="summary-row total-row">
-                <span>Estimated Total</span>
+                <span>Total Estimado</span>
                 <strong>${(cartTotal + (isFreeShipping ? 0 : 9.99)).toFixed(2)}</strong>
               </div>
             </div>
@@ -230,11 +230,11 @@ export const CartDrawer: React.FC = () => {
                 className="btn-primary btn-checkout-main"
                 onClick={handleCheckout}
               >
-                Proceed to Checkout <ArrowRight size={18} />
+                Proceder al Pago <ArrowRight size={18} />
               </button>
               <div className="cart-security-badge">
                 <ShieldCheck size={14} />
-                <span>256-Bit Encrypted &amp; Guaranteed Secure Checkout</span>
+                <span>Checkout 100% Encriptado de 256-Bits y Garantizado</span>
               </div>
             </div>
           </div>
