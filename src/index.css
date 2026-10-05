@@ -2467,19 +2467,28 @@ img {
 
 .payment-badges-row {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.pay-tag {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--color-text-muted);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 4px 8px;
-  border-radius: var(--radius-xs);
-  font-family: var(--font-tech);
-  letter-spacing: 0.5px;
+.pay-badge-logo {
+  height: 20px;
+  width: auto;
+  max-width: 48px;
+  object-fit: contain;
+  display: block;
+  opacity: 0.85;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.pay-badge-logo:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.pay-badge-apple {
+  border-radius: 3px;
 }
 
 /* ==========================================================================

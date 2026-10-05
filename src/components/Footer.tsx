@@ -168,11 +168,11 @@ export const Footer: React.FC = () => {
           </p>
 
           <div className="payment-badges-row">
-            <span className="pay-tag">VISA</span>
-            <span className="pay-tag">MASTERCARD</span>
-            <span className="pay-tag">AMEX</span>
-            <span className="pay-tag">APPLE PAY</span>
-            <span className="pay-tag">PAYPAL</span>
+            <img src="/logopay/visa.png" alt="Visa" className="pay-badge-logo" title="Visa" />
+            <img src="/logopay/mastercard.png" alt="Mastercard" className="pay-badge-logo" title="Mastercard" />
+            <img src="/logopay/amex.png" alt="American Express" className="pay-badge-logo" title="American Express" />
+            <img src="/logopay/applepay.jpg" alt="Apple Pay" className="pay-badge-logo pay-badge-apple" title="Apple Pay" />
+            <img src="/logopay/paypal.png" alt="PayPal" className="pay-badge-logo" title="PayPal" />
           </div>
         </div>
       </div>
