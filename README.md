@@ -48,8 +48,7 @@
 ---
 
 <div align="center">
-
-Diseñado para la cultura urbana actual.  
-**Desarrollado por [WaveFrame Studio](https://waveframe.com.ar/)**
+  
+Diseñado para la cultura urbana actual. **Desarrollado por [WaveFrame Studio](https://waveframe.com.ar/)**
 
 </div>
