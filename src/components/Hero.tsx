@@ -12,49 +12,78 @@ export const Hero: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
+  const statGsmRef = useRef<HTMLElement>(null);
+  const statPercentRef = useRef<HTMLElement>(null);
+  const statRatingRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // 1. Initial Hero Stagger Entrance
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      const counterObj = { gsm: 0, percent: 0, rating: 0 };
 
-      tl.from('.hero-pill', {
-        opacity: 0,
-        y: 25,
-        duration: 0.8,
-        stagger: 0.12,
-        delay: 0.1
-      })
-      .from('.hero-title', {
-        opacity: 0,
-        y: 45,
-        duration: 1.1,
-        filter: 'blur(8px)'
-      }, '-=0.5')
-      .from('.hero-subtitle', {
-        opacity: 0,
-        y: 30,
-        duration: 0.9
-      }, '-=0.7')
-      .from('.hero-cta-group .btn-primary, .hero-cta-group .btn-secondary', {
-        opacity: 0,
-        y: 25,
-        stagger: 0.15,
-        duration: 0.8
-      }, '-=0.6')
-      .from('.hero-stat-item', {
-        opacity: 0,
-        y: 20,
-        stagger: 0.1,
-        duration: 0.7
-      }, '-=0.5')
-      .from(imageRef.current, {
-        opacity: 0,
-        x: 60,
-        scale: 1.08,
-        duration: 1.4,
-        ease: 'power2.out'
-      }, 0.2);
+      tl.fromTo(
+        '.hero-pill',
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, delay: 0.1, clearProps: 'transform,opacity' }
+      )
+      .fromTo(
+        '.hero-title',
+        { opacity: 0, y: 45, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1, clearProps: 'transform,opacity,filter' },
+        '-=0.5'
+      )
+      .fromTo(
+        '.hero-subtitle',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.9, clearProps: 'transform,opacity' },
+        '-=0.7'
+      )
+      .fromTo(
+        '.hero-cta-group > *',
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, stagger: 0.15, duration: 0.8, clearProps: 'transform,opacity' },
+        '-=0.6'
+      )
+      .fromTo(
+        '.hero-stat-item',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, stagger: 0.1, duration: 0.7, clearProps: 'transform,opacity' },
+        '-=0.5'
+      )
+      .to(
+        counterObj,
+        {
+          gsm: 450,
+          percent: 100,
+          rating: 4.9,
+          duration: 1.6,
+          ease: 'power2.out',
+          onUpdate: () => {
+            if (statGsmRef.current) {
+              statGsmRef.current.textContent = `${Math.floor(counterObj.gsm)}+ GSM`;
+            }
+            if (statPercentRef.current) {
+              statPercentRef.current.textContent = `${Math.floor(counterObj.percent)}%`;
+            }
+            if (statRatingRef.current) {
+              statRatingRef.current.textContent = `${counterObj.rating.toFixed(1)} ★`;
+            }
+          },
+          onComplete: () => {
+            if (statGsmRef.current) statGsmRef.current.textContent = '450+ GSM';
+            if (statPercentRef.current) statPercentRef.current.textContent = '100%';
+            if (statRatingRef.current) statRatingRef.current.textContent = '4.9 ★';
+          }
+        },
+        '<0.1'
+      )
+      .fromTo(
+        imageRef.current,
+        { opacity: 0, x: 60, scale: 1.08 },
+        { opacity: 1, x: 0, scale: 1, duration: 1.4, ease: 'power2.out', clearProps: 'opacity' },
+        0.2
+      );
 
       // 2. Parallax on Scroll for Image and Glow
       gsap.to(imageRef.current, {
@@ -160,17 +189,17 @@ export const Hero: React.FC = () => {
         {/* Floating Mini Feature Badges */}
         <div className="hero-stats-row">
           <div className="hero-stat-item">
-            <strong>450+ GSM</strong>
+            <strong ref={statGsmRef}>0+ GSM</strong>
             <span>Friza Heavyweight</span>
           </div>
           <div className="hero-stat-divider"></div>
           <div className="hero-stat-item">
-            <strong>100%</strong>
+            <strong ref={statPercentRef}>0%</strong>
             <span>Orgánico y Testeado</span>
           </div>
           <div className="hero-stat-divider"></div>
           <div className="hero-stat-item">
-            <strong>4.9 ★</strong>
+            <strong ref={statRatingRef}>0.0 ★</strong>
             <span>Más de 1.500+ Drops</span>
           </div>
         </div>

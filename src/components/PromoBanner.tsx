@@ -13,31 +13,41 @@ export const PromoBanner: React.FC = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(cardRef.current, {
-        opacity: 0,
-        y: 60,
-        scale: 0.94,
-        duration: 1.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: bannerRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none none'
+      gsap.fromTo(
+        cardRef.current,
+        { opacity: 0, y: 60, scale: 0.94 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.1,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity',
+          scrollTrigger: {
+            trigger: bannerRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
-      gsap.from('.promo-banner-card > *', {
-        opacity: 0,
-        y: 25,
-        stagger: 0.12,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: bannerRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none none'
+      gsap.fromTo(
+        '.promo-banner-card > *',
+        { opacity: 0, y: 25 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.12,
+          duration: 0.8,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity',
+          scrollTrigger: {
+            trigger: bannerRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
     }, bannerRef);
 
     return () => ctx.revert();

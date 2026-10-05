@@ -12,18 +12,23 @@ export const Footer: React.FC = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.footer-col', {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        stagger: 0.15,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: 'top 90%',
-          toggleActions: 'play none none none'
+      gsap.fromTo(
+        '.footer-col',
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity',
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: 'top 90%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
     }, footerRef);
 
     return () => ctx.revert();

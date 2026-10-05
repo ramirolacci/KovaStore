@@ -11,19 +11,24 @@ export const TrustBadges: React.FC = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.trust-card', {
-        opacity: 0,
-        y: 40,
-        scale: 0.95,
-        duration: 0.85,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
+      gsap.fromTo(
+        '.trust-card',
+        { opacity: 0, y: 40, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.85,
+          stagger: 0.12,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();

@@ -16,18 +16,23 @@ export const Newsletter: React.FC = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(wrapperRef.current, {
-        opacity: 0,
-        y: 50,
-        scale: 0.96,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
+      gsap.fromTo(
+        wrapperRef.current,
+        { opacity: 0, y: 50, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();

@@ -77,30 +77,40 @@ export const ProductGrid: React.FC = () => {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Header Animation
-      gsap.from('.section-header-modern', {
-        opacity: 0,
-        y: 35,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none none'
+      gsap.fromTo(
+        '.section-header-modern',
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
       // Filter Toolbar Animation
-      gsap.from('.filter-controls-wrapper', {
-        opacity: 0,
-        y: 25,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none none'
+      gsap.fromTo(
+        '.filter-controls-wrapper',
+        { opacity: 0, y: 25 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();
