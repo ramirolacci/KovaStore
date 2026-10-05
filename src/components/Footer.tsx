@@ -1,10 +1,23 @@
 import React, { useRef, useLayoutEffect } from 'react';
-import { Instagram, Twitter, Linkedin, Facebook, MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
+import { Instagram, Linkedin, Facebook, MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const XIcon: React.FC<{ size?: number; className?: string }> = ({ size = 18, className = '' }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 export const Footer: React.FC = () => {
   const { setSelectedCategory, setIsWishlistOnly } = useShop();
@@ -62,11 +75,11 @@ export const Footer: React.FC = () => {
           <div className="footer-contact-items">
             <div className="contact-item">
               <MapPin size={16} />
-              <span>Santiago del Estero 750, Salta — Argentina</span>
+              <span>Honduras 4850, Palermo Soho, CABA — Argentina</span>
             </div>
             <div className="contact-item">
               <Phone size={16} />
-              <span>+54 (387) 658-5219</span>
+              <span>+54 (11) 4890-5219</span>
             </div>
             <div className="contact-item">
               <Mail size={16} />
@@ -78,8 +91,8 @@ export const Footer: React.FC = () => {
             <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
               <Instagram size={19} />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
-              <Twitter size={19} />
+            <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="X (Twitter)">
+              <XIcon size={17} />
             </a>
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
               <Linkedin size={19} />
@@ -143,7 +156,15 @@ export const Footer: React.FC = () => {
       <div className="footer-bottom-bar">
         <div className="footer-bottom-container">
           <p className="copyright-text">
-            &copy; 2026 <strong>KOVA STUDIO</strong> / SubUrban. Todos los derechos reservados. Diseñado para la cultura urbana.
+            &copy; 2026 <strong>KOVA STUDIO</strong> Diseñado para la cultura urbana. Todos los derechos reservados | Desarrollado por{' '}
+            <a
+              href="https://waveframe.com.ar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="waveframe-link"
+            >
+              <strong>WaveFrame Studio</strong>
+            </a>.
           </p>
 
           <div className="payment-badges-row">

@@ -2453,6 +2453,18 @@ img {
   color: var(--color-text-dim);
 }
 
+.waveframe-link {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 700;
+  transition: color var(--transition-fast);
+}
+
+.waveframe-link:hover {
+  color: var(--color-accent);
+}
+
 .payment-badges-row {
   display: flex;
   gap: 8px;
