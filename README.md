@@ -47,6 +47,48 @@
 
 ---
 
+## 🚀 Instalación y Puesta en Marcha
+
+Sigue estos sencillos pasos para clonar y ejecutar el proyecto localmente en tu entorno de desarrollo.
+
+### 📋 Requisitos Previos
+
+- [Node.js](https://nodejs.org/) (versión 18 o superior recomendada)
+- Gestor de paquetes: [pnpm](https://pnpm.io/) (recomendado), `npm` o `yarn`
+
+### 💻 Pasos de Instalación
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/tu-usuario/KovaStore.git
+   cd KovaStore
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   pnpm install
+   # o si usas npm:
+   # npm install
+   ```
+
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   pnpm dev
+   # o con npm:
+   # npm run dev
+   ```
+   Abre [http://localhost:5173](http://localhost:5173) en tu navegador para ver la aplicación en vivo.
+
+### 📦 Scripts Disponibles
+
+| Comando | Descripción |
+| :--- | :--- |
+| `pnpm dev` | Inicia el entorno local con Hot Module Replacement (HMR). |
+| `pnpm build` | Compila TypeScript y genera el bundle optimizado para producción en `dist/`. |
+| `pnpm preview` | Previsualiza localmente el build de producción generado. |
+
+---
+
 <div align="center">
   
 Diseñado para la cultura urbana actual. **Desarrollado por [WaveFrame Studio](https://waveframe.com.ar/)**
